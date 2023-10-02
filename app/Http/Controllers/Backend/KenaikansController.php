@@ -7,7 +7,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 use Yajra\DataTables\Facades\DataTables;
 
-class RiwayatJabatansController extends Controller
+class KenaikansController extends Controller
 {
     public function index()
     {
@@ -17,7 +17,7 @@ class RiwayatJabatansController extends Controller
     public function data(Request $request)
     {
         if ($request->ajax()) {
-            $data= $this->model::with('jabatan','pegawai')->get();
+            $data= $this->model::with('pegawai')->get();
             return Datatables::of($data)->addIndexColumn()
                 ->addColumn('action', '<div style="text-align: center;">
                <a class="edit ubah" data-toggle="tooltip" data-placement="top" title="Edit" '.$this->kode.'-id="{{ $id }}" href="#edit-{{ $id }}">
@@ -40,7 +40,6 @@ class RiwayatJabatansController extends Controller
     public function create()
     {
 		$data=[
-			'jabatan_id'	=> \App\Model\Jabatan::pluck('nama','id'),
 			'pegawai_id'	=> \App\Model\Pegawai::pluck('nama','id'),
 		];
 
@@ -57,24 +56,15 @@ class RiwayatJabatansController extends Controller
     {
         if ($request->ajax()) {
             $validator=Validator::make($request->all(), [
-					'tahun' => 'required|'.config('master.regex.json'),
-					'jabatan_id' => 'required|'.config('master.regex.json'),
 					'pegawai_id' => 'required|'.config('master.regex.json'),
+					'tanggal' => 'required|'.config('master.regex.json'),
+					'keterangan' => 'required|'.config('master.regex.json'),
                 ]);
             if ($validator->fails()) {
                 $respon=['status'=>false, 'pesan'=>$validator->messages()];
             }
             else {
-                $data = $this->model::create($request->all());
-                if ($request->hasFile('file')) {
-                    $data->file()->create([
-                        'name' => 'riwayatjabatan',
-                        'data' => [
-                            'disk'      => config('filesystems.default'),
-                            'target'    => Storage::putFile($this->kode.'/riwayatjabatan/'.date('Y').'/'.date('m').'/'.date('d'),$request->file('file')),
-                        ]
-                    ]);
-                }
+                $this->model::create($request->all());
                 $respon=['status'=>true, 'pesan'=>'Data berhasil disimpan'];
             }
             return $respon;
@@ -105,7 +95,6 @@ class RiwayatJabatansController extends Controller
     {
         $data=[
             'data'    => $this->model::find($id),
-			'jabatan_id'	=> \App\Model\Jabatan::pluck('nama','id'),
 			'pegawai_id'	=> \App\Model\Pegawai::pluck('nama','id'),
 
         ];
@@ -123,24 +112,15 @@ class RiwayatJabatansController extends Controller
     {
         if ($request->ajax()) {
             $validator=Validator::make($request->all(), [
-                					'tahun' => 'required|'.config('master.regex.json'),
-					'jabatan_id' => 'required|'.config('master.regex.json'),
-					'pegawai_id' => 'required|'.config('master.regex.json'),
+                					'pegawai_id' => 'required|'.config('master.regex.json'),
+					'tanggal' => 'required|'.config('master.regex.json'),
+					'keterangan' => 'required|'.config('master.regex.json'),
             ]);
             if ($validator->fails()) {
                 $response=['status'=>FALSE, 'pesan'=>$validator->messages()];
             }
             else {
-                $data = $this->model::find($id);
-                $data->update($request->all());
-                if ($request->hasFile('file')) {
-                    $data->file()->updateOrCreate(['name'=>'riwayatjabatan'],[
-                        'data' => [
-                            'disk'      => config('filesystems.default'),
-                            'target'    => Storage::putFile($this->kode.'/riwayatjabatan/'.date('Y').'/'.date('m').'/'.date('d'),$request->file('file')),
-                        ]
-                    ]);
-                }
+                $this->model::find($id)->update($request->all());
                 $respon=['status'=>true, 'pesan'=>'Data berhasil diubah'];
             }
             return $response ?? ['status'=>TRUE, 'pesan'=>['msg'=>'Data berhasil diubah']];

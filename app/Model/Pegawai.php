@@ -28,6 +28,11 @@ class Pegawai extends Model
 	{
 		return $this->hasMany('App\Model\Pendidikan');
 	}
+	
+	public function kenaikans()
+	{
+		return $this->hasMany('App\Model\Kenaikan');
+	}
 
 	public function jabatan()
 	{

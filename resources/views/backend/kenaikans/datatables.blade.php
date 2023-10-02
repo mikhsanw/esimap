@@ -11,9 +11,9 @@ $(document).ready(function() {
 		ajax: "{{ url($url_admin.'/'.$kode.'/data') }}",
 		columns: [
                 { data: 'DT_RowIndex', name: 'DT_RowIndex', orderable: false, searchable: false },
-				{ data: 'tahun' },
-				{ data: 'jabatan.nama' },
 				{ data: 'pegawai.nama' },
+				{ data: 'tanggal' },
+				{ data: 'keterangan' },
 
 				{ data: 'action', orderable: false, searchable: false}
 		    ]

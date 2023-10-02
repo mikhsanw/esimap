@@ -3,7 +3,7 @@
     <div class="col-md-12">
 
 		<p>
-			{!! Form::label('berkas_id', 'Pilih Berkas_id', ['class'=>'control-label']) !!}
+			{!! Form::label('berkas_id', 'Pilih Berkas', ['class'=>'control-label']) !!}
 			{!! Form::select('berkas_id',$berkas_id, null, array('id' => 'berkas_id', 'class' => 'form-control select2', 'placeholder'=>'Pilih')) !!}
 		</p>
 		<p>

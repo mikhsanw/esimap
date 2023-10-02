@@ -128,5 +128,11 @@ Route::group(['prefix' => config('master.url.admin')], function () {
 		});
 		Route::resource('berkas', 'BerkasController');
 
+		Route::prefix('kenaikans')->as('kenaikans')->group(function () {
+			Route::get('/data', 'KenaikansController@data');
+			Route::get('/hapus/{id}', 'KenaikansController@hapus');
+		});
+		Route::resource('kenaikans', 'KenaikansController');
+
 	});
 });

@@ -76,6 +76,22 @@ class menuSeeder extends Seeder
             }
           },
           {
+            "id": 43,
+            "parent_id": null,
+            "kode": "kenaikans",
+            "nama": "Info Kenaikan",
+            "link": "kenaikans",
+            "icon": "fas fa-info-circle",
+            "tampil": 1,
+            "urut": 5,
+            "status": 1,
+            "detail": {
+              "model": "Kenaikan",
+              "title": null,
+              "keterangan": null
+            }
+          },
+          {
             "id": 35,
             "parent_id": null,
             "kode": "datamaster",
@@ -83,7 +99,7 @@ class menuSeeder extends Seeder
             "link": "datamaster",
             "icon": "fas fa-address-card",
             "tampil": 1,
-            "urut": 5,
+            "urut": 6,
             "status": 1,
             "detail": {
               "model": "",
@@ -92,33 +108,17 @@ class menuSeeder extends Seeder
             }
           },
           {
-            "id": 39,
+            "id": 40,
             "parent_id": null,
-            "kode": "pendidikans",
-            "nama": "Pendidikan",
-            "link": "pendidikans",
-            "icon": "fas fa-school",
-            "tampil": 1,
-            "urut": 6,
-            "status": 1,
-            "detail": {
-              "model": "Pendidikan",
-              "title": "",
-              "keterangan": ""
-            }
-          },
-          {
-            "id": 41,
-            "parent_id": null,
-            "kode": "berkaspegawais",
-            "nama": "Berkas Pegawai",
-            "link": "berkaspegawais",
-            "icon": "far fa-file-alt",
+            "kode": "berkas",
+            "nama": "Berkas",
+            "link": "berkas",
+            "icon": "fas fa-file",
             "tampil": 1,
             "urut": 7,
             "status": 1,
             "detail": {
-              "model": "BerkasPegawai",
+              "model": "Berkas",
               "title": "",
               "keterangan": ""
             }
@@ -183,6 +183,22 @@ class menuSeeder extends Seeder
             "status": 1,
             "detail": {
               "model": "",
+              "title": null,
+              "keterangan": null
+            }
+          },
+          {
+            "id": 41,
+            "parent_id": 2,
+            "kode": "berkaspegawais",
+            "nama": "Berkas Pegawai",
+            "link": "berkaspegawais",
+            "icon": "far fa-file-alt",
+            "tampil": 1,
+            "urut": 2,
+            "status": 0,
+            "detail": {
+              "model": "BerkasPegawai",
               "title": null,
               "keterangan": null
             }
@@ -263,38 +279,6 @@ class menuSeeder extends Seeder
             "status": 1,
             "detail": {
               "model": "Pegawai",
-              "title": "",
-              "keterangan": ""
-            }
-          },
-          {
-            "id": 38,
-            "parent_id": 35,
-            "kode": "riwayatjabatans",
-            "nama": "RiwayatJabatan",
-            "link": "riwayatjabatans",
-            "icon": "fas fa-history",
-            "tampil": 1,
-            "urut": 4,
-            "status": 1,
-            "detail": {
-              "model": "RiwayatJabatan",
-              "title": "",
-              "keterangan": ""
-            }
-          },
-          {
-            "id": 40,
-            "parent_id": 35,
-            "kode": "berkas",
-            "nama": "Berkas",
-            "link": "berkas",
-            "icon": "fas fa-file",
-            "tampil": 1,
-            "urut": 5,
-            "status": 1,
-            "detail": {
-              "model": "Berkas",
               "title": "",
               "keterangan": ""
             }

@@ -13,9 +13,9 @@
 			{!! Form::label('keterangan', 'Masukkan Keterangan', ['class'=>'control-label']) !!}
 			{!! Form::textarea('keterangan', $data->keterangan, array('id' => 'keterangan', 'class' => 'form-control', 'autocomplete' => 'off')) !!}
 		</p>
-		<hr />
 		<p>
             {!! Form::label('file', 'Upload Berkas Terkait', array('class' => 'control-label')) !!}
+            <small class="text-danger"> * Ekstensi. Pdf / Zip / Rar / Jpg / Png </small> <br>
             {!! Form::file('file', null, array('id' => 'file', 'class' => 'form-control')) !!}
         </p>
     </div>
@@ -33,6 +33,31 @@
 	</div>
 </div>
 {!! Form::close() !!}
+<hr>
+<div class="col-8 p-5 mt-5">
+    @if( $data->file)
+    @if($data->file->extension=='pdf')
+    <object data="{{$data->file->url_stream.'?t='.time() ?? '#'}}" type="application/pdf"
+        style="background: transparent url({{asset('backend/img/loading.gif')}}) no-repeat center; width: 100%;height: 700px">
+        <p>
+            File PDF tidak dapat ditampilkan, silahkan download file
+            <a download="{{$data->nama}}" href="{{$data->file->url_stream ?? '#'}}"><span
+                    class="fa fa-download"> di sini</span></a>
+        </p>
+    </object>
+    @elseif($data->file->extension=='jpg' || $data->file->extension=='png')
+    <p>
+        <img src="{{$data->file->url_stream.'?t='.time() ?? '#'}}" />
+    </p>
+    @else
+    <p>
+        File tidak dapat ditampilkan, silahkan download file
+        <a download="{{$data->nama}}" href="{{$data->file->url_download.'?t='.time() ?? '#'}}"><span
+                class="fa fa-download"> di sini</span></a>
+    </p>
+    @endif
+    @endif
+</div>
 <style>
     .select2-container {
         z-index: 9999 !important;

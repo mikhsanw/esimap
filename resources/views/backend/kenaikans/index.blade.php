@@ -13,10 +13,9 @@
 			<thead class="bg-primary">
 				<tr>
 					<th width="10px">No</th>
-					<th class="text-center">Jenjang</th>
-					<th class="text-center">Institusi</th>
-					<th class="text-center">Prodi</th>
-					<th class="text-center">Tahun</th>
+					<th class="text-center">Pegawai</th>
+					<th class="text-center">Tanggal</th>
+					<th class="text-center">Keterangan</th>
 
 					<th width="50px" class="text-center" tabindex="0" rowspan="1" colspan="1">Aksi</th>
 				</tr>

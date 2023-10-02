@@ -15,11 +15,10 @@ return [
             "datamaster",
             "pegawais",
             "jabatans",
-            "bidangs",
-            "riwayatjabatans",
-            "pendidikans",
             "berkas",
-            "berkaspegawais"
+            "berkaspegawais",
+            "bidangs",
+            "kenaikans"
         ],
     ], 'menpan'       =>[
         'menu'=>['laporan'],

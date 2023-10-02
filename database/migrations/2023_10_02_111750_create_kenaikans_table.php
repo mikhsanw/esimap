@@ -4,7 +4,7 @@ use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Support\Facades\Schema;
 
-class CreatePendidikansTable extends Migration
+class CreateKenaikansTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,13 +13,11 @@ class CreatePendidikansTable extends Migration
      */
     public function up()
     {
-        Schema::create('pendidikans', function (Blueprint $table) {
+        Schema::create('kenaikans', function (Blueprint $table) {
             $table->uuid('id')->primary();
-			$table->string('jenjang')->nullable();
-			$table->string('institusi')->nullable();
-			$table->string('prodi')->nullable();
-			$table->string('tahun',4)->nullable();
 			$table->foreignUuid('pegawai_id')->nullable()->constrained();
+			$table->date('tanggal')->nullable();
+			$table->text('keterangan')->nullable();
             $table->timestamps();
             $table->softDeletes();
         });
@@ -32,6 +30,6 @@ class CreatePendidikansTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('pendidikans');
+        Schema::dropIfExists('kenaikans');
     }
 }

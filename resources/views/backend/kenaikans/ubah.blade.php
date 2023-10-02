@@ -2,22 +2,18 @@
 <div class="row">
     <div class="col-md-12">
 		<p>
-			{!! Form::label('tahun', 'Masukkan Tahun', ['class'=>'control-label']) !!}
-			{!! Form::text('tahun', $data->tahun, array('id' => 'tahun', 'class' => 'form-control', 'autocomplete' => 'off')) !!}
-		</p>
-		<p>
-			{!! Form::label('jabatan_id', 'Pilih Jabatan_id', ['class'=>'control-label']) !!}
-			{!! Form::select('jabatan_id',$jabatan_id, $data->jabatan_id, array('id' => 'jabatan_id', 'class' => 'form-control select2', 'placeholder'=>'Pilih')) !!}
-		</p>
-		<p>
 			{!! Form::label('pegawai_id', 'Pilih Pegawai_id', ['class'=>'control-label']) !!}
 			{!! Form::select('pegawai_id',$pegawai_id, $data->pegawai_id, array('id' => 'pegawai_id', 'class' => 'form-control select2', 'placeholder'=>'Pilih')) !!}
 		</p>
-        <hr />
 		<p>
-            {!! Form::label('file', 'Upload Ijazah', array('class' => 'control-label')) !!}
-            {!! Form::file('file', null, array('id' => 'file', 'class' => 'form-control')) !!}
-        </p>
+			{!! Form::label('tanggal', 'Masukkan Tanggal', ['class'=>'control-label']) !!}
+			{!! Form::date('tanggal', $data->tanggal, array('id' => 'tanggal', 'class' => 'form-control', 'autocomplete' => 'off')) !!}
+		</p>
+		<p>
+			{!! Form::label('keterangan', 'Masukkan Keterangan', ['class'=>'control-label']) !!}
+			{!! Form::textarea('keterangan', $data->keterangan, array('id' => 'keterangan', 'class' => 'form-control', 'autocomplete' => 'off')) !!}
+		</p>
+
     </div>
 	{!! Form::hidden('table-list', 'datatable', array('id' => 'table-list')) !!}
 </div>

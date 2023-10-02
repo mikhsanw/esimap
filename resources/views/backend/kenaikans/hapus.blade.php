@@ -3,7 +3,7 @@
 	<div class="col-md-12">
 
 		<p>
-			<label class="control-label">Hapus data <strong>{{ $data->jenjang }}</strong>?</label>
+			<label class="control-label">Hapus data <strong>{{ $data->pegawai_id }}</strong>?</label>
 		</p>
 
 

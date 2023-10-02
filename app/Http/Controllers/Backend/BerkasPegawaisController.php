@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Backend;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Storage;
 use Yajra\DataTables\Facades\DataTables;
 use Illuminate\Support\Facades\Validator;
 
@@ -18,7 +19,7 @@ class BerkasPegawaisController extends Controller
     public function data(Request $request,$id=NULL)
     {
         if ($request->ajax()) {
-            $data= $id!=NULL ? $this->model::whereBerkasId($id)->get() : $this->model::with('berkas','pegawai')->get();
+            $data= $id!=NULL ? $this->model::with('berkas','pegawai')->whereBerkasId($id)->get() : $this->model::with('berkas','pegawai')->get();
             return Datatables::of($data)->addIndexColumn()
                 ->addColumn('action', '<div style="text-align: center;">
                <a class="edit ubah" data-toggle="tooltip" data-placement="top" title="Edit" '.$this->kode.'-id="{{ $id }}" href="#edit-{{ $id }}">
@@ -130,7 +131,6 @@ class BerkasPegawaisController extends Controller
                 	'berkas_id' => 'required|'.config('master.regex.json'),
 					'tahun' => 'required|'.config('master.regex.json'),
 					'keterangan' => 'required|'.config('master.regex.json'),
-					'pegawai_id' => 'required|'.config('master.regex.json'),
             ]);
             if ($validator->fails()) {
                 $response=['status'=>FALSE, 'pesan'=>$validator->messages()];
