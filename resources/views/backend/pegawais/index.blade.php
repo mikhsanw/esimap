@@ -1,11 +1,13 @@
 @extends('layouts.backend.index')
 @push('title',ucwords(strtolower($halaman->nama)))
 @push('header',ucwords(strtolower($halaman->nama)))
+@if(Auth::user()->level == 1)
 @push('tombol')
 <button class="waves-effect waves-light btn bg-gradient-primary text-white py-2 px-3 tambah">
 	Tambah
 </button>
 @endpush
+@endif
 @section('content')
 <div class="panel-container show">
 	<div class="panel-content">

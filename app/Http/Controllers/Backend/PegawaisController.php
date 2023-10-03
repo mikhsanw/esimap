@@ -8,7 +8,7 @@ use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use Yajra\DataTables\Facades\DataTables;
 use Illuminate\Support\Facades\Validator;
-
+use Auth;
 class PegawaisController extends Controller
 {
     public function index()
@@ -25,9 +25,9 @@ class PegawaisController extends Controller
                <a class="edit ubah" data-toggle="tooltip" data-placement="top" title="Edit" '.$this->kode.'-id="{{ $id }}" href="#edit-{{ $id }}">
                    <i class="fa fa-edit text-warning"></i>
                </a>&nbsp; &nbsp;
-               <a class="delete hidden-xs hidden-sm hapus" data-toggle="tooltip" data-placement="top" title="Delete" href="#hapus-{{ $id }}" '.$this->kode.'-id="{{ $id }}">
+               '.(Auth::user()->level==1 ? '<a class="delete hidden-xs hidden-sm hapus" data-toggle="tooltip" data-placement="top" title="Delete" href="#hapus-{{ $id }}" '.$this->kode.'-id="{{ $id }}">
                    <i class="fa fa-trash text-danger"></i>
-               </a>
+               </a>' :'').'
            </div>')->toJson();
         }
         else {
@@ -79,7 +79,7 @@ class PegawaisController extends Controller
             exit('Ops, an Ajax request');
         }
     }
-    
+
     /**
      * Display the specified resource.
      *
