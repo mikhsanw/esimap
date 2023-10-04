@@ -2,38 +2,34 @@
 
 namespace App\Http\Controllers\Backend;
 
-use App\Model\Bidang;
-use App\Model\Jabatan;
+use App\Model\Berkas;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Storage;
 use Yajra\DataTables\Facades\DataTables;
 use Illuminate\Support\Facades\Validator;
-use Auth;
-class PegawaisController extends Controller
+
+class BerkasPegawaisAdminController extends Controller
 {
     public function index()
     {
-        return view('backend.'.$this->kode.'.index');
+        // return view('backend.'.$this->kode.'.index');
     }
 
-    public function data(Request $request)
+    public function data(Request $request,$id,$idpeg=null)
     {
         if ($request->ajax()) {
-            $data= ((Auth::user()->pegawai_id==null) ?$this->model::query():$this->model::whereId(Auth::user()->pegawai_id))->get();
+            $data= $idpeg!=NULL ? $this->model::with('berkas','pegawai')->whereBerkasId($id)->wherePegawaiId($idpeg)->get() : $this->model::with('berkas','pegawai')->whereBerkasId($id)->get();
             return Datatables::of($data)->addIndexColumn()
                 ->addColumn('action', '<div style="text-align: center;">
-               '.(Auth::user()->pegawai_id==null ? '<div style="text-align: center;">
-                <a href="'.url('berkas/{{ $id }}').'" title="Menu" >
-                    <i class="fas fa-share"></i>
-                </a>&nbsp; &nbsp;':'').
-                '<a class="edit ubah" data-toggle="tooltip" data-placement="top" title="Edit" '.$this->kode.'-id="{{ $id }}" href="#edit-{{ $id }}">
-                    <i class="fa fa-edit text-warning"></i>
-                </a>&nbsp; &nbsp;'
-                .(Auth::user()->pegawai_id==null ? '<a class="delete hidden-xs hidden-sm hapus" data-toggle="tooltip" data-placement="top" title="Delete" href="#hapus-{{ $id }}" '.$this->kode.'-id="{{ $id }}">
-                    <i class="fa fa-trash text-danger"></i>
-                </a>' :'')
-                .'</div>')
-                ->toJson();
+               <a class="edit ubah" data-toggle="tooltip" data-placement="top" title="Edit" '.$this->kode.'-id="{{ $id }}" href="#edit-{{ $id }}">
+                   <i class="fa fa-edit text-warning"></i>
+               </a>&nbsp; &nbsp;
+               <a class="delete hidden-xs hidden-sm hapus" data-toggle="tooltip" data-placement="top" title="Delete" href="#hapus-{{ $id }}" '.$this->kode.'-id="{{ $id }}">
+                   <i class="fa fa-trash text-danger"></i>
+               </a>
+           </div>')->toJson();
         }
         else {
             exit("Not an AJAX request -_-");
@@ -44,15 +40,12 @@ class PegawaisController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function create()
+    public function create($berkas_id=null,$pegawai_id=null)
     {
 		$data=[
-			'jenis_kelamin'	=> config('master.jenis_kelamin'),
-			'agama'	=> config('master.agama'),
-			'jabatan'	=> Jabatan::pluck('nama','id'),
-			'bidang'	=> Bidang::pluck('nama','id'),
+			'berkas_id'	=> $berkas_id,
+			'pegawai_id'	=> $pegawai_id,
 		];
-
         return view('backend.'.$this->kode.'.tambah' ,$data);
     }
 
@@ -66,16 +59,24 @@ class PegawaisController extends Controller
     {
         if ($request->ajax()) {
             $validator=Validator::make($request->all(), [
-					'nama' => 'required|'.config('master.regex.json'),
-					'nip' => 'required|'.config('master.regex.json'),
-                    'jabatan_id' => 'required',
-                    'bidang_id' => 'required',
+					'tahun' => 'required|'.config('master.regex.json'),
+					'keterangan' => 'required|'.config('master.regex.json'),
                 ]);
             if ($validator->fails()) {
                 $respon=['status'=>false, 'pesan'=>$validator->messages()];
             }
             else {
-                $this->model::create($request->all());
+                if($request->pegawai_id == null) $request->request->add(['pegawai_id' => Auth::user()->pegawai_id]);
+                $data = $this->model::create($request->all());
+                if ($request->hasFile('file')) {
+                    $data->file()->create([
+                        'name' => 'berkaspegawai',
+                        'data' => [
+                            'disk'      => config('filesystems.default'),
+                            'target'    => Storage::putFile($this->kode.'/berkaspegawai/'.date('Y').'/'.date('m').'/'.date('d'),$request->file('file')),
+                        ]
+                    ]);
+                }
                 $respon=['status'=>true, 'pesan'=>'Data berhasil disimpan'];
             }
             return $respon;
@@ -84,16 +85,30 @@ class PegawaisController extends Controller
             exit('Ops, an Ajax request');
         }
     }
-
+    
     /**
      * Display the specified resource.
      *
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function show($id)
+    public function show($id,$idpeg=null)
     {
-        //
+        $data=[
+            'id'    => $id,
+            'idpeg'    => $idpeg,
+            'jenis'    => Berkas::find($id),
+        ];
+        return view('backend.'.$this->kode.'.index', $data);
+    }
+    public function show_admin($id,$idpeg)
+    {
+        $data=[
+            'id'    => $id,
+            'idpeg'    => $idpeg,
+            'jenis'    => Berkas::find($id),
+        ];
+        return view('backend.'.$this->kode.'.index_admin', $data);
     }
 
     /**
@@ -106,10 +121,8 @@ class PegawaisController extends Controller
     {
         $data=[
             'data'    => $this->model::find($id),
-			'jenis_kelamin'	=> config('master.jenis_kelamin'),
-			'agama'	=> config('master.agama'),
-			'jabatan'	=> Jabatan::pluck('nama','id'),
-			'bidang'	=> Bidang::pluck('nama','id'),
+			'berkas_id'	=> \App\Model\Berkas::pluck('nama','id'),
+
         ];
         return view('backend.'.$this->kode.'.ubah', $data);
     }
@@ -125,28 +138,23 @@ class PegawaisController extends Controller
     {
         if ($request->ajax()) {
             $validator=Validator::make($request->all(), [
-                					'nama' => 'required|'.config('master.regex.json'),
-					'nip' => 'required|'.config('master.regex.json'),
-					'nik' => 'required|'.config('master.regex.json'),
-					'tempat_lahir' => 'required|'.config('master.regex.json'),
-					'tanggal_lahir' => 'required|'.config('master.regex.json'),
-					'jenis_kelamin' => 'required|'.config('master.regex.json'),
-					'agama' => 'required|'.config('master.regex.json'),
-					'rt' => 'required|'.config('master.regex.json'),
-					'rw' => 'required|'.config('master.regex.json'),
-					'desa' => 'required|'.config('master.regex.json'),
-					'kelurahan' => 'required|'.config('master.regex.json'),
-					'kecamatan' => 'required|'.config('master.regex.json'),
-					'kabupaten' => 'required|'.config('master.regex.json'),
-					'provinsi' => 'required|'.config('master.regex.json'),
-                    'jabatan_id' => 'required',
-                    'bidang_id' => 'required',
+					'tahun' => 'required|'.config('master.regex.json'),
+					'keterangan' => 'required|'.config('master.regex.json'),
             ]);
             if ($validator->fails()) {
                 $response=['status'=>FALSE, 'pesan'=>$validator->messages()];
             }
             else {
-                $this->model::find($id)->update($request->all());
+                $data = $this->model::find($id);
+                $data->update($request->all());
+                if ($request->hasFile('file')) {
+                    $data->file()->updateOrCreate(['name'=>'berkaspegawai'],[
+                        'data' => [
+                            'disk'      => config('filesystems.default'),
+                            'target'    => Storage::putFile($this->kode.'/berkaspegawai/'.date('Y').'/'.date('m').'/'.date('d'),$request->file('file')),
+                        ]
+                    ]);
+                }
                 $respon=['status'=>true, 'pesan'=>'Data berhasil diubah'];
             }
             return $response ?? ['status'=>TRUE, 'pesan'=>['msg'=>'Data berhasil diubah']];

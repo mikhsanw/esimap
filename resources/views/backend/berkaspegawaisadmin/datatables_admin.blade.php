@@ -8,14 +8,14 @@ $(document).ready(function() {
         },
 		processing: true,
 		serverSide: true,
-		ajax: "{{ url($url_admin.'/'.$kode.'/data') }}",
+		ajax: "{{ url($url_admin.'/'.$kode.'/data/'.$id.'/'.$id2) }}",
 		columns: [
                 { data: 'DT_RowIndex', name: 'DT_RowIndex', orderable: false, searchable: false },
-				{ data: 'nama' },
+				{ data: 'berkas.nama' },
+				{ data: 'tahun' },
 				{ data: 'keterangan' },
-				{ data: 'type_berkas' },
 
-				{ data: 'kelola', orderable: false, searchable: false},
+				{ data: 'action', orderable: false, searchable: false}
 		    ]
     });
 });

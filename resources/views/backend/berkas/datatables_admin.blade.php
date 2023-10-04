@@ -8,7 +8,7 @@ $(document).ready(function() {
         },
 		processing: true,
 		serverSide: true,
-		ajax: "{{ url($url_admin.'/'.$kode.'/data') }}",
+		ajax: "{{ url($url_admin.'/'.$kode.'/data/'.$id) }}",
 		columns: [
                 { data: 'DT_RowIndex', name: 'DT_RowIndex', orderable: false, searchable: false },
 				{ data: 'nama' },

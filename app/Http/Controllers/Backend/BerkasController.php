@@ -14,27 +14,24 @@ class BerkasController extends Controller
         return view('backend.'.$this->kode.'.index');
     }
 
-    public function data(Request $request)
+    public function data(Request $request,$id=null)
     {
         if ($request->ajax()) {
             $data= $this->model::query();
             return Datatables::of($data)->addIndexColumn()
-                ->addColumn('kelola',function($q){
-                    $kelola = '<div style="text-align: center;">
-                            <a href="'.url('berkaspegawais/'.$q->id).'" title="Menu" >
+                ->addColumn('kelola',function($q) use ($id){
+                    $kelola = $id==null?'<div style="text-align: center;">
+                            <a href="'.url('berkaspegawais/'.$q->id).'" title="Lengkapi" >
                                 <i class="fas fa-share"></i>
                             </a>
-                        </div>';
+                        </div>':'<div style="text-align: center;">
+                        <a href="'.url('berkaspegawaisadmin/'.$q->id.'/'.$id).'" title="Lengkapi" >
+                            <i class="fas fa-share"></i>
+                        </a>
+                    </div>';
                     return $kelola;
                 })
-                ->addColumn('action', '<div style="text-align: center;">
-               <a class="edit ubah" data-toggle="tooltip" data-placement="top" title="Edit" '.$this->kode.'-id="{{ $id }}" href="#edit-{{ $id }}">
-                   <i class="fa fa-edit text-warning"></i>
-               </a>&nbsp; &nbsp;
-               <a class="delete hidden-xs hidden-sm hapus" data-toggle="tooltip" data-placement="top" title="Delete" href="#hapus-{{ $id }}" '.$this->kode.'-id="{{ $id }}">
-                   <i class="fa fa-trash text-danger"></i>
-               </a>
-           </div>')->rawColumns(['action', 'kelola'])->make(TRUE);
+               ->rawColumns(['kelola'])->make(TRUE);
         }
         else {
             exit("Not an AJAX request -_-");
@@ -47,11 +44,7 @@ class BerkasController extends Controller
      */
     public function create()
     {
-		$data=[
-			'type_berkas'	=> config('master.type_berkas'),
-		];
-
-        return view('backend.'.$this->kode.'.tambah' ,$data);
+		//
     }
 
     /**
@@ -62,24 +55,7 @@ class BerkasController extends Controller
      */
     public function store(Request $request)
     {
-        if ($request->ajax()) {
-            $validator=Validator::make($request->all(), [
-					'nama' => 'required|'.config('master.regex.json'),
-					'keterangan' => 'required|'.config('master.regex.json'),
-					'type_berkas' => 'required|'.config('master.regex.json'),
-                ]);
-            if ($validator->fails()) {
-                $respon=['status'=>false, 'pesan'=>$validator->messages()];
-            }
-            else {
-                $this->model::create($request->all());
-                $respon=['status'=>true, 'pesan'=>'Data berhasil disimpan'];
-            }
-            return $respon;
-        }
-        else {
-            exit('Ops, an Ajax request');
-        }
+        //
     }
     
     /**
@@ -90,7 +66,8 @@ class BerkasController extends Controller
      */
     public function show($id)
     {
-        //
+        return view('backend.'.$this->kode.'.index_admin',compact('id'));
+        
     }
 
     /**
@@ -118,24 +95,7 @@ class BerkasController extends Controller
      */
     public function update(Request $request, $id)
     {
-        if ($request->ajax()) {
-            $validator=Validator::make($request->all(), [
-                					'nama' => 'required|'.config('master.regex.json'),
-					'keterangan' => 'required|'.config('master.regex.json'),
-					'type_berkas' => 'required|'.config('master.regex.json'),
-            ]);
-            if ($validator->fails()) {
-                $response=['status'=>FALSE, 'pesan'=>$validator->messages()];
-            }
-            else {
-                $this->model::find($id)->update($request->all());
-                $respon=['status'=>true, 'pesan'=>'Data berhasil diubah'];
-            }
-            return $response ?? ['status'=>TRUE, 'pesan'=>['msg'=>'Data berhasil diubah']];
-        }
-        else {
-            exit('Ops, an Ajax request');
-        }
+        //
     }
 
     /**
@@ -152,13 +112,6 @@ class BerkasController extends Controller
 
     public function destroy($id)
     {
-        $data=$this->model::find($id);
-        if ($data->delete()) {
-            $response=['status'=>TRUE, 'pesan'=>['msg'=>'Data berhasil dihapus']];
-        }
-        else {
-            $response=['status'=>FALSE, 'pesan'=>['msg'=>'Data gagal dihapus']];
-        }
-        return response()->json($response);
+        //
     }
 }

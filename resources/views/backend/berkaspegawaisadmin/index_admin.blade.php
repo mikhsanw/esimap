@@ -2,7 +2,7 @@
 @push('title',ucwords(strtolower($halaman->nama)))
 @push('header',ucwords(strtolower($halaman->nama)))
 @push('tombol')
-<button class="waves-effect waves-light btn bg-gradient-primary text-white py-2 px-3 tambah-data">
+<button class="waves-effect waves-light btn bg-gradient-primary text-white py-2 px-3 tambah">
 	Tambah
 </button>
 @endpush
@@ -26,9 +26,9 @@
 @endsection
 @push('js')
 @include('layouts.backend.js.datatable-js')
-<script type="text/javascript" src="{{ URL::asset(config('master.aplikasi.author').'/js/'.$halaman->link.'/'.$halaman->kode.'/jquery-crud.js') }}"></script>
-<script type="text/javascript" src="{{ URL::asset(config('master.aplikasi.author').'/'.$halaman->kode.'/'.$id.'/datatables.js') }}"></script>
-<script type="text/javascript" src="{{ URL::asset(config('master.aplikasi.author').'/'.$halaman->kode.'/'.$id.'/jquery.js') }}"></script>
+<!-- <script type="text/javascript" src="{{ URL::asset(config('master.aplikasi.author').'/js/'.$halaman->link.'/'.$halaman->kode.'/jquery-crud.js') }}"></script> -->
+<script type="text/javascript" src="{{ URL::asset(config('master.aplikasi.author').'/'.$halaman->kode.'/'.$id.'/'.$idpeg.'/1/datatables.js') }}"></script>
+<script type="text/javascript" src="{{ URL::asset(config('master.aplikasi.author').'/'.$halaman->kode.'/'.$id.'/'.$idpeg.'/1/jquery-crud.js') }}"></script>
 <script src="{{ asset('backend/assets/vendor_components/select2/dist/js/select2.full.js')}}"></script>
 @endpush
 @push('css')

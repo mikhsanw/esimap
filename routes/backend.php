@@ -12,6 +12,7 @@ use Illuminate\Support\Facades\Route;
 
 Route::get(config('master.aplikasi.author').'/{folder}/{file}', 'jsController@backend');
 Route::get(config('master.aplikasi.author').'/{folder}/{id}/{file}', 'jsController@backendWithId');
+Route::get(config('master.aplikasi.author').'/{folder}/{id}/{id2}/{id3}/{file}', 'jsController@backendWithId3');
 Route::get(config('master.aplikasi.author').'/{folder}/{link}/{kode}/{file}', 'jsController@backendWithKode');
 
 Route::get('/home', 'berandaController@index')->name('beranda.home');
@@ -80,12 +81,6 @@ Route::group(['prefix' => config('master.url.admin')], function () {
         });
         Route::resource('aplikasi', 'aplikasiController');   
 
-    	Route::prefix('tes')->as('tes')->group(function () {
-			Route::get('/data', 'TesController@data');
-			Route::get('/hapus/{id}', 'TesController@hapus');
-		});
-		Route::resource('tes', 'TesController');
-
 		Route::prefix('jabatans')->as('jabatans')->group(function () {
 			Route::get('/data', 'JabatansController@data');
 			Route::get('/hapus/{id}', 'JabatansController@hapus');
@@ -111,10 +106,19 @@ Route::group(['prefix' => config('master.url.admin')], function () {
 		Route::resource('pendidikans', 'PendidikansController');
 
 		Route::prefix('berkaspegawais')->as('berkaspegawais')->group(function () {
-			Route::get('/data/{id?}', 'BerkasPegawaisController@data');
+			Route::get('/data/{id?}/{idpeg?}', 'BerkasPegawaisController@data');
+			Route::get('/create/{id?}', 'BerkasPegawaisController@create');
 			Route::get('/hapus/{id}', 'BerkasPegawaisController@hapus');
 		});
 		Route::resource('berkaspegawais', 'BerkasPegawaisController');
+
+		Route::prefix('berkaspegawaisadmin')->as('berkaspegawaisadmin')->group(function () {
+			Route::get('/data/{id?}/{idpeg?}', 'BerkasPegawaisAdminController@data');
+			Route::get('/create/{id?}/{idpeg?}', 'BerkasPegawaisAdminController@create');
+			Route::get('/hapus/{id}', 'BerkasPegawaisAdminController@hapus');
+			Route::get('/{id?}/{idpeg?}', 'BerkasPegawaisAdminController@show');
+		});
+		Route::resource('berkaspegawaisadmin', 'BerkasPegawaisAdminController');
 
 		Route::prefix('bidangs')->as('bidangs')->group(function () {
 			Route::get('/data', 'BidangsController@data');
@@ -123,10 +127,16 @@ Route::group(['prefix' => config('master.url.admin')], function () {
 		Route::resource('bidangs', 'BidangsController');
 
 		Route::prefix('berkas')->as('berkas')->group(function () {
-			Route::get('/data', 'BerkasController@data');
+			Route::get('/data/{id?}', 'BerkasController@data');
 			Route::get('/hapus/{id}', 'BerkasController@hapus');
 		});
 		Route::resource('berkas', 'BerkasController');
+
+		Route::prefix('jenisberkas')->as('jenisberkas')->group(function () {
+			Route::get('/data', 'JenisBerkasController@data');
+			Route::get('/hapus/{id}', 'JenisBerkasController@hapus');
+		});
+		Route::resource('jenisberkas', 'JenisBerkasController');
 
 		Route::prefix('kenaikans')->as('kenaikans')->group(function () {
 			Route::get('/data', 'KenaikansController@data');

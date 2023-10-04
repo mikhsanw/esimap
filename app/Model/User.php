@@ -60,9 +60,9 @@ class User extends Authenticatable
         return $this->belongsTo('App\Model\Aksesgrup');
     }
 
-    public function berita()
+    public function pegawai()
     {
-        return $this->hasMany('App\Model\Berita');
+        return $this->hasOne('App\Model\Pegawai');
     }
 
     public function getUnorIdAttribute()

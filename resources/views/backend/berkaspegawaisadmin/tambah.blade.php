@@ -16,6 +16,7 @@
         </p>
     </div>
     {!! Form::hidden('berkas_id', $berkas_id, array('id' => 'berkas_id')) !!}
+    {!! Form::hidden('pegawai_id', $pegawai_id, array('id' => 'pegawai_id')) !!}
 	{!! Form::hidden('table-list', 'datatable', array('id' => 'table-list')) !!}
 </div>
 <div class="row">

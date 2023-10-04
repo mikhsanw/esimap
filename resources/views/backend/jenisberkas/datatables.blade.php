@@ -14,8 +14,7 @@ $(document).ready(function() {
 				{ data: 'nama' },
 				{ data: 'keterangan' },
 				{ data: 'type_berkas' },
-
-				{ data: 'kelola', orderable: false, searchable: false},
+				{ data: 'action', orderable: false, searchable: false}
 		    ]
     });
 });

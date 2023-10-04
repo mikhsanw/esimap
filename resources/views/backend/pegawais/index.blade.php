@@ -23,7 +23,7 @@
 					<th class="text-center">Jenis kelamin</th>
 					<th class="text-center">Agama</th>
 
-					<th width="50px" class="text-center" tabindex="0" rowspan="1" colspan="1">Aksi</th>
+					<th width="10%" class="text-center" tabindex="0" rowspan="1" colspan="1">Aksi</th>
 				</tr>
 			</thead>
 		</table>

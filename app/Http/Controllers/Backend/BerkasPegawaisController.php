@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Backend;
 
+use App\Model\Berkas;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
@@ -39,11 +40,10 @@ class BerkasPegawaisController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function create()
+    public function create($id)
     {
 		$data=[
-			'berkas_id'	=> \App\Model\Berkas::pluck('nama','id'),
-			'pegawai_id'	=> \App\Model\Pegawai::pluck('nama','id'),
+			'berkas_id'	=> $id,
 		];
 
         return view('backend.'.$this->kode.'.tambah' ,$data);
@@ -97,6 +97,7 @@ class BerkasPegawaisController extends Controller
     {
         $data=[
             'id'    => $id,
+            'jenis'    => Berkas::find($id),
         ];
         return view('backend.'.$this->kode.'.index', $data);
     }

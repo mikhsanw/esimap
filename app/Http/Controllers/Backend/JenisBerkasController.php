@@ -2,14 +2,12 @@
 
 namespace App\Http\Controllers\Backend;
 
-use App\Model\Bidang;
-use App\Model\Jabatan;
-use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
-use Yajra\DataTables\Facades\DataTables;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
-use Auth;
-class PegawaisController extends Controller
+use Yajra\DataTables\Facades\DataTables;
+
+class JenisBerkasController extends Controller
 {
     public function index()
     {
@@ -19,21 +17,24 @@ class PegawaisController extends Controller
     public function data(Request $request)
     {
         if ($request->ajax()) {
-            $data= ((Auth::user()->pegawai_id==null) ?$this->model::query():$this->model::whereId(Auth::user()->pegawai_id))->get();
+            $data= $this->model::query();
             return Datatables::of($data)->addIndexColumn()
+                ->addColumn('kelola',function($q){
+                    $kelola = '<div style="text-align: center;">
+                            <a href="'.url('berkaspegawais/'.$q->id).'" title="Menu" >
+                                <i class="fas fa-share"></i>
+                            </a>
+                        </div>';
+                    return $kelola;
+                })
                 ->addColumn('action', '<div style="text-align: center;">
-               '.(Auth::user()->pegawai_id==null ? '<div style="text-align: center;">
-                <a href="'.url('berkas/{{ $id }}').'" title="Menu" >
-                    <i class="fas fa-share"></i>
-                </a>&nbsp; &nbsp;':'').
-                '<a class="edit ubah" data-toggle="tooltip" data-placement="top" title="Edit" '.$this->kode.'-id="{{ $id }}" href="#edit-{{ $id }}">
-                    <i class="fa fa-edit text-warning"></i>
-                </a>&nbsp; &nbsp;'
-                .(Auth::user()->pegawai_id==null ? '<a class="delete hidden-xs hidden-sm hapus" data-toggle="tooltip" data-placement="top" title="Delete" href="#hapus-{{ $id }}" '.$this->kode.'-id="{{ $id }}">
-                    <i class="fa fa-trash text-danger"></i>
-                </a>' :'')
-                .'</div>')
-                ->toJson();
+               <a class="edit ubah" data-toggle="tooltip" data-placement="top" title="Edit" '.$this->kode.'-id="{{ $id }}" href="#edit-{{ $id }}">
+                   <i class="fa fa-edit text-warning"></i>
+               </a>&nbsp; &nbsp;
+               <a class="delete hidden-xs hidden-sm hapus" data-toggle="tooltip" data-placement="top" title="Delete" href="#hapus-{{ $id }}" '.$this->kode.'-id="{{ $id }}">
+                   <i class="fa fa-trash text-danger"></i>
+               </a>
+           </div>')->rawColumns(['action', 'kelola'])->make(TRUE);
         }
         else {
             exit("Not an AJAX request -_-");
@@ -47,10 +48,7 @@ class PegawaisController extends Controller
     public function create()
     {
 		$data=[
-			'jenis_kelamin'	=> config('master.jenis_kelamin'),
-			'agama'	=> config('master.agama'),
-			'jabatan'	=> Jabatan::pluck('nama','id'),
-			'bidang'	=> Bidang::pluck('nama','id'),
+			'type_berkas'	=> config('master.type_berkas'),
 		];
 
         return view('backend.'.$this->kode.'.tambah' ,$data);
@@ -67,9 +65,8 @@ class PegawaisController extends Controller
         if ($request->ajax()) {
             $validator=Validator::make($request->all(), [
 					'nama' => 'required|'.config('master.regex.json'),
-					'nip' => 'required|'.config('master.regex.json'),
-                    'jabatan_id' => 'required',
-                    'bidang_id' => 'required',
+					'keterangan' => 'required|'.config('master.regex.json'),
+					'type_berkas' => 'required|'.config('master.regex.json'),
                 ]);
             if ($validator->fails()) {
                 $respon=['status'=>false, 'pesan'=>$validator->messages()];
@@ -84,7 +81,7 @@ class PegawaisController extends Controller
             exit('Ops, an Ajax request');
         }
     }
-
+    
     /**
      * Display the specified resource.
      *
@@ -106,10 +103,8 @@ class PegawaisController extends Controller
     {
         $data=[
             'data'    => $this->model::find($id),
-			'jenis_kelamin'	=> config('master.jenis_kelamin'),
-			'agama'	=> config('master.agama'),
-			'jabatan'	=> Jabatan::pluck('nama','id'),
-			'bidang'	=> Bidang::pluck('nama','id'),
+			'type_berkas'	=> config('master.type_berkas'),
+
         ];
         return view('backend.'.$this->kode.'.ubah', $data);
     }
@@ -126,21 +121,8 @@ class PegawaisController extends Controller
         if ($request->ajax()) {
             $validator=Validator::make($request->all(), [
                 					'nama' => 'required|'.config('master.regex.json'),
-					'nip' => 'required|'.config('master.regex.json'),
-					'nik' => 'required|'.config('master.regex.json'),
-					'tempat_lahir' => 'required|'.config('master.regex.json'),
-					'tanggal_lahir' => 'required|'.config('master.regex.json'),
-					'jenis_kelamin' => 'required|'.config('master.regex.json'),
-					'agama' => 'required|'.config('master.regex.json'),
-					'rt' => 'required|'.config('master.regex.json'),
-					'rw' => 'required|'.config('master.regex.json'),
-					'desa' => 'required|'.config('master.regex.json'),
-					'kelurahan' => 'required|'.config('master.regex.json'),
-					'kecamatan' => 'required|'.config('master.regex.json'),
-					'kabupaten' => 'required|'.config('master.regex.json'),
-					'provinsi' => 'required|'.config('master.regex.json'),
-                    'jabatan_id' => 'required',
-                    'bidang_id' => 'required',
+					'keterangan' => 'required|'.config('master.regex.json'),
+					'type_berkas' => 'required|'.config('master.regex.json'),
             ]);
             if ($validator->fails()) {
                 $response=['status'=>FALSE, 'pesan'=>$validator->messages()];

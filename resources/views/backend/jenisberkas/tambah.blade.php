@@ -1,21 +1,22 @@
 {!! Form::open(array('id' => 'frmOji', 'route' => [$halaman->kode.'.store'], 'class' => 'form account-form', 'method' => 'post', 'files' => 'true')) !!}
 <div class="row">
     <div class="col-md-12">
+
 		<p>
-			{!! Form::label('tahun', 'Masukkan Tahun', ['class'=>'control-label']) !!}
-			{!! Form::text('tahun', null, array('id' => 'tahun', 'class' => 'form-control', 'autocomplete' => 'off')) !!}
+			{!! Form::label('nama', 'Masukkan Nama', ['class'=>'control-label']) !!}
+			{!! Form::text('nama', null, array('id' => 'nama', 'class' => 'form-control', 'autocomplete' => 'off')) !!}
 		</p>
 		<p>
 			{!! Form::label('keterangan', 'Masukkan Keterangan', ['class'=>'control-label']) !!}
 			{!! Form::textarea('keterangan', null, array('id' => 'keterangan', 'class' => 'form-control', 'autocomplete' => 'off')) !!}
 		</p>
-		<hr />
 		<p>
-            {!! Form::label('file', 'Upload Berkas Terkait', array('class' => 'control-label')) !!}
-            {!! Form::file('file', null, array('id' => 'file', 'class' => 'form-control')) !!}
-        </p>
+			{!! Form::label('type_berkas', 'Pilih Type_berkas', ['class'=>'control-label']) !!}
+			{!! Form::select('type_berkas',$type_berkas, null, array('id' => 'type_berkas', 'class' => 'form-control select2', 'placeholder'=>'Pilih')) !!}
+		</p>
+
+
     </div>
-    {!! Form::hidden('berkas_id', $berkas_id, array('id' => 'berkas_id')) !!}
 	{!! Form::hidden('table-list', 'datatable', array('id' => 'table-list')) !!}
 </div>
 <div class="row">
