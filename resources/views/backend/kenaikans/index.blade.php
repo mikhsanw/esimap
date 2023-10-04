@@ -15,6 +15,7 @@
 					<th width="10px">No</th>
 					<th class="text-center">Pegawai</th>
 					<th class="text-center">Tanggal</th>
+					<th class="text-center">Sisa</th>
 					<th class="text-center">Keterangan</th>
 
 					<th width="50px" class="text-center" tabindex="0" rowspan="1" colspan="1">Aksi</th>

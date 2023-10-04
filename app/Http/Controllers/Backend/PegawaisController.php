@@ -25,7 +25,7 @@ class PegawaisController extends Controller
                <a class="edit ubah" data-toggle="tooltip" data-placement="top" title="Edit" '.$this->kode.'-id="{{ $id }}" href="#edit-{{ $id }}">
                    <i class="fa fa-edit text-warning"></i>
                </a>&nbsp; &nbsp;
-               '.(Auth::user()->level==1 ? '<a class="delete hidden-xs hidden-sm hapus" data-toggle="tooltip" data-placement="top" title="Delete" href="#hapus-{{ $id }}" '.$this->kode.'-id="{{ $id }}">
+               '.(Auth::user()->aksesgrup_id==1 ? '<a class="delete hidden-xs hidden-sm hapus" data-toggle="tooltip" data-placement="top" title="Delete" href="#hapus-{{ $id }}" '.$this->kode.'-id="{{ $id }}">
                    <i class="fa fa-trash text-danger"></i>
                </a>' :'').'
            </div>')->toJson();

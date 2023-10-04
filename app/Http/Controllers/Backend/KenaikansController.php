@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 use Yajra\DataTables\Facades\DataTables;
+use Help;
 
 class KenaikansController extends Controller
 {
@@ -19,7 +20,10 @@ class KenaikansController extends Controller
         if ($request->ajax()) {
             $data= $this->model::with('pegawai')->get();
             return Datatables::of($data)->addIndexColumn()
-                ->addColumn('action', '<div style="text-align: center;">
+                ->addColumn('countdown', function ($row) {
+                    return $row->tanggal ? Help::countdown($row->tanggal).' Hari' : '-';
+            })
+            ->addColumn('action', '<div style="text-align: center;">
                <a class="edit ubah" data-toggle="tooltip" data-placement="top" title="Edit" '.$this->kode.'-id="{{ $id }}" href="#edit-{{ $id }}">
                    <i class="fa fa-edit text-warning"></i>
                </a>&nbsp; &nbsp;
@@ -73,7 +77,7 @@ class KenaikansController extends Controller
             exit('Ops, an Ajax request');
         }
     }
-    
+
     /**
      * Display the specified resource.
      *
