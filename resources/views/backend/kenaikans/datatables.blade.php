@@ -13,6 +13,7 @@ $(document).ready(function() {
                 { data: 'DT_RowIndex', name: 'DT_RowIndex', orderable: false, searchable: false },
 				{ data: 'pegawai.nama' },
 				{ data: 'tanggal' },
+				{ data: 'countdown' },
 				{ data: 'keterangan' },
 
 				{ data: 'action', orderable: false, searchable: false}
