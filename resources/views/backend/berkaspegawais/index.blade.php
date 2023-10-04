@@ -16,7 +16,7 @@
 					<th class="text-center">Berkas</th>
 					<th class="text-center">Tahun</th>
 					<th class="text-center">Keterangan</th>
-
+					<th width="50px" class="text-center" tabindex="0" rowspan="1" colspan="1">Detail</th>
 					<th width="50px" class="text-center" tabindex="0" rowspan="1" colspan="1">Aksi</th>
 				</tr>
 			</thead>

@@ -2,10 +2,6 @@
 <div class="row">
     <div class="col-md-12">
 		<p>
-			{!! Form::label('berkas_id', 'Pilih Berkas_id', ['class'=>'control-label']) !!}
-			{!! Form::select('berkas_id',$berkas_id, $data->berkas_id, array('id' => 'berkas_id', 'class' => 'form-control select2', 'placeholder'=>'Pilih')) !!}
-		</p>
-		<p>
 			{!! Form::label('tahun', 'Masukkan Tahun', ['class'=>'control-label']) !!}
 			{!! Form::text('tahun', $data->tahun, array('id' => 'tahun', 'class' => 'form-control', 'autocomplete' => 'off')) !!}
 		</p>

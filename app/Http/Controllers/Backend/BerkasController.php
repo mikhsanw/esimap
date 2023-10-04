@@ -21,11 +21,11 @@ class BerkasController extends Controller
             return Datatables::of($data)->addIndexColumn()
                 ->addColumn('kelola',function($q) use ($id){
                     $kelola = $id==null?'<div style="text-align: center;">
-                            <a href="'.url('berkaspegawais/'.$q->id).'" title="Lengkapi" >
+                            <a href="'.url('berkaspegawais/index/'.$q->id).'" title="Lengkapi" >
                                 <i class="fas fa-share"></i>
                             </a>
                         </div>':'<div style="text-align: center;">
-                        <a href="'.url('berkaspegawaisadmin/'.$q->id.'/'.$id).'" title="Lengkapi" >
+                        <a href="'.url('berkaspegawaisadmin/index/'.$q->id.'/'.$id).'" title="Lengkapi" >
                             <i class="fas fa-share"></i>
                         </a>
                     </div>';
@@ -67,6 +67,11 @@ class BerkasController extends Controller
     public function show($id)
     {
         return view('backend.'.$this->kode.'.index_admin',compact('id'));
+        
+    }
+    public function show_admin($id)
+    {
+        return view('backend.berkas.index_admin',compact('id'));
         
     }
 

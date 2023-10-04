@@ -20,16 +20,21 @@ class BerkasPegawaisAdminController extends Controller
     public function data(Request $request,$id,$idpeg=null)
     {
         if ($request->ajax()) {
-            $data= $idpeg!=NULL ? $this->model::with('berkas','pegawai')->whereBerkasId($id)->wherePegawaiId($idpeg)->get() : $this->model::with('berkas','pegawai')->whereBerkasId($id)->get();
+            $data= $this->model::with('berkas','pegawai')->whereBerkasId($id)->wherePegawaiId($idpeg)->get();
             return Datatables::of($data)->addIndexColumn()
+                ->addColumn('lihat','<div style="text-align: center;">
+                    <a class="lihat" data-toggle="tooltip" data-placement="top" title="Lihat" '.$this->kode.'-id="{{ $id }}" href="#lihat-{{ $id }}">
+                    <i class="fas fa-file-alt"></i>
+                    </a>
+                </div>')
                 ->addColumn('action', '<div style="text-align: center;">
-               <a class="edit ubah" data-toggle="tooltip" data-placement="top" title="Edit" '.$this->kode.'-id="{{ $id }}" href="#edit-{{ $id }}">
-                   <i class="fa fa-edit text-warning"></i>
-               </a>&nbsp; &nbsp;
-               <a class="delete hidden-xs hidden-sm hapus" data-toggle="tooltip" data-placement="top" title="Delete" href="#hapus-{{ $id }}" '.$this->kode.'-id="{{ $id }}">
-                   <i class="fa fa-trash text-danger"></i>
-               </a>
-           </div>')->toJson();
+                <a class="edit ubah" data-toggle="tooltip" data-placement="top" title="Edit" '.$this->kode.'-id="{{ $id }}" href="#edit-{{ $id }}">
+                    <i class="fa fa-edit text-warning"></i>
+                </a>&nbsp; &nbsp;
+                <a class="delete hidden-xs hidden-sm hapus" data-toggle="tooltip" data-placement="top" title="Delete" href="#hapus-{{ $id }}" '.$this->kode.'-id="{{ $id }}">
+                    <i class="fa fa-trash text-danger"></i>
+                </a>
+            </div>')->rawColumns(['action','lihat'])->toJson();
         }
         else {
             exit("Not an AJAX request -_-");
@@ -49,6 +54,15 @@ class BerkasPegawaisAdminController extends Controller
         return view('backend.'.$this->kode.'.tambah' ,$data);
     }
 
+    public function lihat($id)
+    {
+		$data=[
+			'data'	=> $this->model::find($id),
+		];
+
+        return view('backend.'.$this->kode.'.lihat' ,$data);
+    }
+
     /**
      * Store a newly created resource in storage.
      *
@@ -66,7 +80,6 @@ class BerkasPegawaisAdminController extends Controller
                 $respon=['status'=>false, 'pesan'=>$validator->messages()];
             }
             else {
-                if($request->pegawai_id == null) $request->request->add(['pegawai_id' => Auth::user()->pegawai_id]);
                 $data = $this->model::create($request->all());
                 if ($request->hasFile('file')) {
                     $data->file()->create([
@@ -101,15 +114,15 @@ class BerkasPegawaisAdminController extends Controller
         ];
         return view('backend.'.$this->kode.'.index', $data);
     }
-    public function show_admin($id,$idpeg)
-    {
-        $data=[
-            'id'    => $id,
-            'idpeg'    => $idpeg,
-            'jenis'    => Berkas::find($id),
-        ];
-        return view('backend.'.$this->kode.'.index_admin', $data);
-    }
+    // public function show_admin($id,$idpeg)
+    // {
+    //     $data=[
+    //         'id'    => $id,
+    //         'idpeg'    => $idpeg,
+    //         'jenis'    => Berkas::find($id),
+    //     ];
+    //     return view('backend.'.$this->kode.'.index_admin', $data);
+    // }
 
     /**
      * Show the form for editing the specified resource.
@@ -121,8 +134,6 @@ class BerkasPegawaisAdminController extends Controller
     {
         $data=[
             'data'    => $this->model::find($id),
-			'berkas_id'	=> \App\Model\Berkas::pluck('nama','id'),
-
         ];
         return view('backend.'.$this->kode.'.ubah', $data);
     }

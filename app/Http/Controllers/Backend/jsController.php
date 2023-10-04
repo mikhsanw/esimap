@@ -21,7 +21,7 @@ class jsController extends Controller
     public function backendWithId3($folder, $id, $id2, $id3, $file)
     {
         $js = str_replace('.js', '', $file);
-        return response()->view('backend.'. $folder .'.'. $js, ['id'=>$id,'id2'=>$id,'id3'=>$id, 'kode'=>$folder])->header('Content-Type', 'application/javascript');
+        return response()->view('backend.'. $folder .'.'. $js, ['id'=>$id,'id2'=>$id2,'id3'=>$id3, 'kode'=>$folder])->header('Content-Type', 'application/javascript');
     }
 
     public function backendWithKode($folder,$link,$kode, $file)

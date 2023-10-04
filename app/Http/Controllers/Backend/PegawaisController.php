@@ -23,7 +23,7 @@ class PegawaisController extends Controller
             return Datatables::of($data)->addIndexColumn()
                 ->addColumn('action', '<div style="text-align: center;">
                '.(Auth::user()->pegawai_id==null ? '<div style="text-align: center;">
-                <a href="'.url('berkas/{{ $id }}').'" title="Menu" >
+                <a href="'.url('berkasadmin/{{ $id }}').'" title="Menu" >
                     <i class="fas fa-share"></i>
                 </a>&nbsp; &nbsp;':'').
                 '<a class="edit ubah" data-toggle="tooltip" data-placement="top" title="Edit" '.$this->kode.'-id="{{ $id }}" href="#edit-{{ $id }}">

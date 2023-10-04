@@ -22,14 +22,19 @@ class BerkasPegawaisController extends Controller
         if ($request->ajax()) {
             $data= $id!=NULL ? $this->model::with('berkas','pegawai')->whereBerkasId($id)->get() : $this->model::with('berkas','pegawai')->get();
             return Datatables::of($data)->addIndexColumn()
-                ->addColumn('action', '<div style="text-align: center;">
-               <a class="edit ubah" data-toggle="tooltip" data-placement="top" title="Edit" '.$this->kode.'-id="{{ $id }}" href="#edit-{{ $id }}">
-                   <i class="fa fa-edit text-warning"></i>
-               </a>&nbsp; &nbsp;
-               <a class="delete hidden-xs hidden-sm hapus" data-toggle="tooltip" data-placement="top" title="Delete" href="#hapus-{{ $id }}" '.$this->kode.'-id="{{ $id }}">
-                   <i class="fa fa-trash text-danger"></i>
-               </a>
-           </div>')->toJson();
+            ->addColumn('lihat','<div style="text-align: center;">
+                <a class="lihat" data-toggle="tooltip" data-placement="top" title="Lihat" '.$this->kode.'-id="{{ $id }}" href="#lihat-{{ $id }}">
+                <i class="fas fa-file-alt"></i>
+                </a>
+            </div>')
+            ->addColumn('action', '<div style="text-align: center;">
+                <a class="edit ubah" data-toggle="tooltip" data-placement="top" title="Edit" '.$this->kode.'-id="{{ $id }}" href="#edit-{{ $id }}">
+                    <i class="fa fa-edit text-warning"></i>
+                </a>&nbsp; &nbsp;
+                <a class="delete hidden-xs hidden-sm hapus" data-toggle="tooltip" data-placement="top" title="Delete" href="#hapus-{{ $id }}" '.$this->kode.'-id="{{ $id }}">
+                    <i class="fa fa-trash text-danger"></i>
+                </a>
+            </div>')->rawColumns(['action','lihat'])->toJson();
         }
         else {
             exit("Not an AJAX request -_-");
@@ -47,6 +52,14 @@ class BerkasPegawaisController extends Controller
 		];
 
         return view('backend.'.$this->kode.'.tambah' ,$data);
+    }
+    public function lihat($id)
+    {
+		$data=[
+			'data'	=> $this->model::find($id),
+		];
+
+        return view('backend.'.$this->kode.'.lihat' ,$data);
     }
 
     /**

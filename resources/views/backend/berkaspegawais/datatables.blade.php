@@ -14,7 +14,7 @@ $(document).ready(function() {
 				{ data: 'berkas.nama' },
 				{ data: 'tahun' },
 				{ data: 'keterangan' },
-
+				{ data: 'lihat', orderable: false, searchable: false},
 				{ data: 'action', orderable: false, searchable: false}
 		    ]
     });
