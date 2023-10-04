@@ -44,7 +44,7 @@
     </tr>
 </thead>
 <tbody>
-    @foreach(\App\Model\Pegawai::withwherehas('kenaikans',function ($r){
+    @forelse(\App\Model\Pegawai::withwherehas('kenaikans',function ($r){
         $r->latest('id')->take(1);
     })->get() as $k=> $row)
     <tr>
@@ -53,7 +53,11 @@
         <td>{{date('d M Y',strtotime($row->kenaikans->first()-> tanggal))}}</td>
         <td>{{Help::countdown($row->kenaikans->first()-> tanggal)}}</td>
     </tr>
-    @endforeach
+    @empty
+    <tr>
+        <td colspan="4" align="center">Belum ada data</td>
+    </tr>
+    @endforelse
 </tbody>
         </table>
     </div>
