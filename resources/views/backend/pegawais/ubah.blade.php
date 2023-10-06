@@ -59,11 +59,11 @@
 		</p>
 		<p>
 			{!! Form::label('bidang_id', 'Pilih Bidang', ['class'=>'control-label']) !!}
-			{!! Form::select('bidang_id',$bidang, $data->bidang_id, array('id' => 'bidang_id', 'class' => 'form-control select2', 'placeholder'=>'Pilih')) !!}
+			{!! Form::select('bidang_id',$bidang, $data->bidang_id, array('id' => 'bidang_id', 'class' => 'form-control select2', 'placeholder'=>'Pilih', (Auth::user()->pegawai_id != null)?'disabled':'' )) !!}
 		</p>
 		<p>
 			{!! Form::label('jabatan_id', 'Pilih Jabatan', ['class'=>'control-label']) !!}
-			{!! Form::select('jabatan_id',$jabatan, $data->jabatan_id, array('id' => 'jabatan_id', 'class' => 'form-control select2', 'placeholder'=>'Pilih')) !!}
+			{!! Form::select('jabatan_id',$jabatan, $data->jabatan_id, array('id' => 'jabatan_id', 'class' => 'form-control select2', 'placeholder'=>'Pilih', (Auth::user()->pegawai_id != null)?'disabled':'' ))!!}
 		</p>
 
     </div>
