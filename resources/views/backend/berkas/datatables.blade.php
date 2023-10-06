@@ -13,7 +13,6 @@ $(document).ready(function() {
                 { data: 'DT_RowIndex', name: 'DT_RowIndex', orderable: false, searchable: false },
 				{ data: 'nama' },
 				{ data: 'keterangan' },
-				{ data: 'type_berkas' },
 
 				{ data: 'kelola', orderable: false, searchable: false},
 		    ]

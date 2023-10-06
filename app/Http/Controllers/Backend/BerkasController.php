@@ -22,11 +22,11 @@ class BerkasController extends Controller
                 ->addColumn('kelola',function($q) use ($id){
                     $kelola = $id==null?'<div style="text-align: center;">
                             <a href="'.url('berkaspegawais/index/'.$q->id).'" title="Lengkapi" >
-                                <i class="fas fa-share"></i>
+                                <i class="fas fa-upload"></i>
                             </a>
                         </div>':'<div style="text-align: center;">
                         <a href="'.url('berkaspegawaisadmin/index/'.$q->id.'/'.$id).'" title="Lengkapi" >
-                            <i class="fas fa-share"></i>
+                            <i class="fas fa-upload"></i>
                         </a>
                     </div>';
                     return $kelola;
@@ -57,7 +57,7 @@ class BerkasController extends Controller
     {
         //
     }
-    
+
     /**
      * Display the specified resource.
      *
@@ -67,12 +67,12 @@ class BerkasController extends Controller
     public function show($id)
     {
         return view('backend.'.$this->kode.'.index_admin',compact('id'));
-        
+
     }
     public function show_admin($id)
     {
         return view('backend.berkas.index_admin',compact('id'));
-        
+
     }
 
     /**

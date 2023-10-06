@@ -15,7 +15,6 @@
 					<th width="10px">No</th>
 					<th class="text-center">Nama</th>
 					<th class="text-center">Keterangan</th>
-					<th class="text-center">Type Berkas</th>
 
 					<th width="50px" class="text-center" tabindex="0" rowspan="1" colspan="1">Unggah</th>
 				</tr>
