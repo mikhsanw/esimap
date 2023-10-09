@@ -18,7 +18,7 @@ Route::get(config('master.aplikasi.author').'/{folder}/{link}/{kode}/{file}', 'j
 Route::get('/home', 'berandaController@index')->name('beranda.home');
 Route::group(['prefix' => config('master.url.admin')], function () {
 	// dashboard - beranda
-	// Route::get('/', 'berandaController@index')->name('beranda.index');
+	Route::get('/', 'berandaController@index')->name('beranda.index');
 
 	// Url Public
     Route::group(['middleware' => ['throttle:5']], function () {
